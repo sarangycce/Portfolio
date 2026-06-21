@@ -1,0 +1,272 @@
+/* ============================================================
+   SGEA — Animations & Particle Canvas
+   ============================================================ */
+
+/* ── Keyframes ────────────────────────────────────────────── */
+@keyframes fadeIn       { from{opacity:0} to{opacity:1} }
+@keyframes fadeInUp     { from{opacity:0;transform:translateY(40px)} to{opacity:1;transform:translateY(0)} }
+@keyframes fadeInDown   { from{opacity:0;transform:translateY(-20px)} to{opacity:1;transform:translateY(0)} }
+@keyframes fadeInLeft   { from{opacity:0;transform:translateX(-30px)} to{opacity:1;transform:translateX(0)} }
+@keyframes fadeInRight  { from{opacity:0;transform:translateX(30px)} to{opacity:1;transform:translateX(0)} }
+@keyframes scaleIn      { from{opacity:0;transform:scale(0.9)} to{opacity:1;transform:scale(1)} }
+@keyframes shimmer      { 0%{background-position:-200% center} 100%{background-position:200% center} }
+@keyframes pulse        { 0%,100%{opacity:1} 50%{opacity:0.5} }
+@keyframes ping         { 75%,100%{transform:scale(2);opacity:0} }
+@keyframes float        { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+@keyframes spinSlow     { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+@keyframes borderGlow   { 0%,100%{box-shadow:0 0 20px rgba(37,99,235,0.2)} 50%{box-shadow:0 0 40px rgba(37,99,235,0.5)} }
+@keyframes typewriter   { from{width:0} to{width:100%} }
+@keyframes blink        { 0%,100%{opacity:1} 50%{opacity:0} }
+@keyframes gradientShift{ 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+@keyframes slideUp      { from{transform:translateY(6px);opacity:0} to{transform:translateY(0);opacity:1} }
+@keyframes countUp      { from{opacity:0} to{opacity:1} }
+@keyframes waveBar      { 0%,100%{transform:scaleY(0.4)} 50%{transform:scaleY(1)} }
+@keyframes orbit        { from{transform:rotate(0deg) translateX(80px) rotate(0deg)} to{transform:rotate(360deg) translateX(80px) rotate(-360deg)} }
+
+/* ── Hero Canvas ──────────────────────────────────────────── */
+#particleCanvas {
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+  z-index:0;
+  opacity:0.7;
+}
+
+/* ── Hero Section ─────────────────────────────────────────── */
+.hero {
+  position:relative;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  overflow:hidden;
+  background: radial-gradient(ellipse 100% 80% at 50% -10%, rgba(37,99,235,0.18) 0%, transparent 60%),
+              radial-gradient(ellipse 60% 50% at 80% 60%, rgba(6,182,212,0.08) 0%, transparent 50%),
+              #070912;
+}
+.hero::after {
+  content:'';
+  position:absolute;
+  bottom:0; left:0; right:0;
+  height:200px;
+  background:linear-gradient(to top, #070912, transparent);
+  pointer-events:none;
+}
+.hero-content {
+  position:relative;
+  z-index:1;
+  padding-top:var(--nav-h);
+}
+
+/* Animated badge */
+.hero-badge {
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:8px 16px;
+  background:rgba(37,99,235,0.12);
+  border:1px solid rgba(37,99,235,0.3);
+  border-radius:var(--r-full);
+  font-family:var(--font-mono);
+  font-size:0.75rem;
+  color:var(--cyan);
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  margin-bottom:1.5rem;
+  animation:fadeInDown 0.8s ease both;
+}
+.badge-dot {
+  width:7px; height:7px;
+  background:var(--cyan);
+  border-radius:50%;
+  position:relative;
+}
+.badge-dot::after {
+  content:'';
+  position:absolute;
+  inset:-3px;
+  border-radius:50%;
+  background:var(--cyan);
+  opacity:0.4;
+  animation:ping 1.5s ease-in-out infinite;
+}
+
+.hero-title {
+  animation:fadeInUp 0.8s ease 0.1s both;
+  margin-bottom:1rem;
+}
+.hero-subtitle {
+  animation:fadeInUp 0.8s ease 0.25s both;
+  margin-bottom:1.5rem;
+}
+.hero-desc {
+  animation:fadeInUp 0.8s ease 0.4s both;
+  margin-bottom:2.5rem;
+  max-width:640px;
+  color:var(--text-secondary);
+  font-size:1.1rem;
+  line-height:1.75;
+}
+.hero-actions {
+  animation:fadeInUp 0.8s ease 0.55s both;
+  display:flex;
+  gap:1rem;
+  flex-wrap:wrap;
+}
+.hero-image-wrap {
+  animation:fadeIn 1s ease 0.3s both;
+  position:relative;
+}
+.hero-image {
+  border-radius:var(--r-xl);
+  border:1px solid var(--border-light);
+  box-shadow:var(--shadow-lg), 0 0 80px rgba(37,99,235,0.15);
+  width:100%;
+  aspect-ratio:4/5;
+  object-fit:cover;
+  object-position:top;
+}
+.hero-image-glow {
+  position:absolute;
+  inset:-20px;
+  border-radius:calc(var(--r-xl) + 20px);
+  background:radial-gradient(ellipse at center, rgba(37,99,235,0.15) 0%, transparent 70%);
+  pointer-events:none;
+}
+
+/* Floating chips on hero */
+.hero-chip {
+  position:absolute;
+  background:rgba(13,21,38,0.85);
+  backdrop-filter:blur(12px);
+  border:1px solid var(--border-light);
+  border-radius:var(--r-md);
+  padding:10px 14px;
+  font-size:0.8rem;
+  font-weight:600;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  white-space:nowrap;
+  animation:float 4s ease-in-out infinite;
+  box-shadow:var(--shadow-md);
+}
+.hero-chip-1 { bottom:15%; right:-10%; animation-delay:-1s; }
+.hero-chip-2 { top:20%;   right:-8%;  animation-delay:-2.5s; }
+.hero-chip-3 { top:55%;   left:-12%;  animation-delay:-0.5s; }
+.chip-icon   { font-size:1.1rem; }
+
+/* ── Gradient Moving Background ───────────────────────────── */
+.gradient-bg {
+  background:linear-gradient(-45deg, #070912, #0d1526, #0a1228, #07091e);
+  background-size:400% 400%;
+  animation:gradientShift 15s ease infinite;
+}
+
+/* ── Shimmer Skeleton ─────────────────────────────────────── */
+.shimmer {
+  background:linear-gradient(90deg, var(--surface) 25%, var(--surface-2) 50%, var(--surface) 75%);
+  background-size:200% auto;
+  animation:shimmer 1.5s linear infinite;
+}
+
+/* ── Float Animation ──────────────────────────────────────── */
+.float-1 { animation:float 5s ease-in-out infinite; }
+.float-2 { animation:float 6s ease-in-out infinite 1s; }
+.float-3 { animation:float 7s ease-in-out infinite 2s; }
+
+/* ── Staggered Children ───────────────────────────────────── */
+.stagger > * { animation:fadeInUp 0.6s ease both; }
+.stagger > *:nth-child(1){ animation-delay:0.0s; }
+.stagger > *:nth-child(2){ animation-delay:0.1s; }
+.stagger > *:nth-child(3){ animation-delay:0.2s; }
+.stagger > *:nth-child(4){ animation-delay:0.3s; }
+.stagger > *:nth-child(5){ animation-delay:0.4s; }
+.stagger > *:nth-child(6){ animation-delay:0.5s; }
+
+/* ── Glow Ring ────────────────────────────────────────────── */
+.glow-ring {
+  position:relative;
+}
+.glow-ring::after {
+  content:'';
+  position:absolute;
+  inset:-1px;
+  border-radius:inherit;
+  background:var(--grad-primary);
+  z-index:-1;
+  opacity:0;
+  transition:opacity var(--t-base);
+  filter:blur(8px);
+}
+.glow-ring:hover::after { opacity:0.5; }
+
+/* ── Typing Cursor ────────────────────────────────────────── */
+.typed-cursor {
+  display:inline-block;
+  width:3px;
+  height:1em;
+  background:var(--cyan);
+  border-radius:2px;
+  margin-left:4px;
+  vertical-align:text-bottom;
+  animation:blink 1s step-end infinite;
+}
+
+/* ── Icon Orbit ───────────────────────────────────────────── */
+.orbit-container {
+  position:relative;
+  width:200px; height:200px;
+  margin:auto;
+}
+.orbit-center {
+  position:absolute;
+  top:50%; left:50%;
+  transform:translate(-50%,-50%);
+  width:80px; height:80px;
+  border-radius:50%;
+  background:var(--grad-primary);
+  display:flex; align-items:center; justify-content:center;
+  font-size:2rem;
+  box-shadow:var(--shadow-glow);
+}
+.orbit-item {
+  position:absolute;
+  top:50%; left:50%;
+  width:36px; height:36px;
+  border-radius:50%;
+  background:var(--surface-2);
+  border:1px solid var(--border-light);
+  display:flex; align-items:center; justify-content:center;
+  font-size:1rem;
+  margin:-18px 0 0 -18px;
+  animation:orbit 8s linear infinite;
+}
+.orbit-item:nth-child(3){ animation-delay:-2s; }
+.orbit-item:nth-child(4){ animation-delay:-4s; }
+.orbit-item:nth-child(5){ animation-delay:-6s; }
+
+/* ── Noise Overlay ────────────────────────────────────────── */
+.noise-overlay {
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:9998;
+  opacity:0.025;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+}
+
+/* ── Scroll Progress Bar ──────────────────────────────────── */
+.scroll-progress {
+  position:fixed;
+  top:0; left:0;
+  height:3px;
+  width:0%;
+  background:var(--grad-primary);
+  z-index:9999;
+  transition:width 0.1s linear;
+}
+
+/* ── Page Transition ──────────────────────────────────────── */
+.page-enter { animation:fadeIn 0.4s ease; }
